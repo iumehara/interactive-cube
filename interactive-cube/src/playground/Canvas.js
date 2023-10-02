@@ -1,25 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import './canvas.scss'
-import AnimatedCube from '../three/animatedCube';
 
-const Canvas = () => {
+const Canvas = (props) => {
     const [xValue, setXValue] = useState(1)
     const [yValue, setYValue] = useState(1)
     const [zValue, setZValue] = useState(1)
 
-    const cube = useRef()
-
     useEffect(() => {
-        if (!cube.current) {
-            cube.current = new AnimatedCube('3dcanvas')
-        }
-        
-        cube.current.rotate()
+        props.animator.bindTo('3dcanvas')
+        props.animator.render()
     }, [])
 
-    useEffect(() => cube.current.redraw({x: xValue}), [xValue])
-    useEffect(() => cube.current.redraw({y: yValue}), [yValue])
-    useEffect(() => cube.current.redraw({z: zValue}), [zValue])
+    useEffect(() => props.animator.redraw({x: xValue}), [xValue])
+    useEffect(() => props.animator.redraw({y: yValue}), [yValue])
+    useEffect(() => props.animator.redraw({z: zValue}), [zValue])
 
     return (
         <div className='Canvas'>

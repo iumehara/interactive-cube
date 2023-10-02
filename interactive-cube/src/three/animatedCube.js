@@ -6,12 +6,9 @@ export default class AnimatedCube {
     constructor(id) {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        
-
 
         this.scene.background = new THREE.Color( 0xf0f0f0 );
         this.scene.add( new THREE.AmbientLight( 0xf0f0f0, 3 ) );
-
 
         const light = new THREE.SpotLight( 0xffffff, 4.5 );
         light.position.set( 0, 1500, 200 );
@@ -41,29 +38,27 @@ export default class AnimatedCube {
         this.scene.add( helper );
 
         this.renderer = new THREE.WebGLRenderer();
-        document.getElementById(id).appendChild( this.renderer.domElement );
         
         const geometry = new THREE.BoxGeometry( 1, 1, 1 );
         const material = new THREE.MeshBasicMaterial( { color: '#FFD9FD' } );
         this.cube = new THREE.Mesh( geometry, material );
+        this.cube.rotation.x = 1;
+        this.cube.rotation.y = 2;
+        this.cube.rotation.z = 3;
         this.scene.add( this.cube );
         
         const controls = new OrbitControls( this.camera, this.renderer.domElement );
         controls.addEventListener( 'change', () => this.render() );
 
-        this.camera.position.z = 5; 
-        
-        this.render()
+        this.camera.position.z = 5;         
+    }
+
+    bindTo(id) {
+        document.getElementById(id).appendChild( this.renderer.domElement );
     }
 
     render() {
         this.renderer.render( this.scene, this.camera );
-    }
-
-    rotate() {
-        this.cube.rotation.x += 5;
-        this.cube.rotation.y += 5;
-        this.render()
     }
 
     redraw({x, y, z}) {
